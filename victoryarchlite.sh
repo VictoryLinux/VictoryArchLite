@@ -352,6 +352,8 @@ function aur() {
 'ocs-url' # install packages from websites
 'onlyoffice-bin'
 'stacer-bin'
+'timeshift'
+'timeshift-autosnap'
 'ttf-droid'
 'ttf-hack'
 'ttf-meslo' # Nerdfont package
