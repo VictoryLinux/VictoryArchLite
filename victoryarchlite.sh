@@ -128,7 +128,7 @@ function debloat() {
 	echo "Debloating."
 	echo
 	sleep 3s
-    sudo pacman -Rdsu gnome-books gnome-clocks gnome-maps gnome-music gnome-weather gnome-boxes epiphany totem --noconfirm
+    sudo pacman -Rdsu gnome-books gnome-clocks gnome-maps gnome-music gnome-weather gnome-boxes --noconfirm
 	check_exit_status
 }
 
@@ -236,11 +236,9 @@ PKGS=(
 'gcc'
 'gimp' # Photo editing
 'git'
-'gnome'
 'gnome-tweaks'
 'gparted' # partition management
 'gptfdisk'
-'grub'
 'grub-customizer'
 'gst-libav'
 'gst-plugins-good'
@@ -390,7 +388,7 @@ check_exit_status
 
 #GRUB
 function grub() {
-cd $HOME/VictoryArch/grub/
+cd $HOME/VictoryArchLite/grub/
 sudo ./install.sh
 
 check_exit_status
