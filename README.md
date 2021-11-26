@@ -13,7 +13,7 @@ Download ArchISO from <https://archlinux.org/download/> and put on a USB drive w
 
 ## Boot Arch ISO
 
-Install Arch Linux using Archfi script or an installer of you choice
+Install Arch Linux using the included installer in the arch iso, Archfi script or an installer of you choice
 https://github.com/MatMoul/archfi
 
 choose Gnome DE and a basic setup.
