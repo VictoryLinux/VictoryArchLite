@@ -126,7 +126,7 @@ function mirror() {
 	check_exit_status
 }
 
-# Downloading and installing all Arch Linux and ArcoLinux packages
+# Installing any Arch Linux Updates
 function general_update() {
 
 	echo "Updating ArchLinux & ArcoLinux."
@@ -136,53 +136,152 @@ function general_update() {
 	check_exit_status
 }
 
-# Debloat ArcolinuxD
+# Debloat
 function debloat() {
 
 	echo "Debloating."
 	echo
 	sleep 3s
-	sudo pacman -Rdsu gnome-books gnome-clocks gnome-terminal gnome-documents gnome-maps gnome-music gnome-weather gnome-boxes epiphany totem --noconfirm;
-	check_exit_status gnome backgrounds
+    sudo pacman -Rdsu gnome-books gnome-clocks gnome-maps gnome-music gnome-weather gnome-boxes epiphany totem --noconfirm
+	check_exit_status
 }
 
-# Running Arco Linux Setup Scripts
-function arco() {
+# Running Arch Linux Setup Scripts
+function packages() {
 	echo
-	echo "Running Arco Linux Setup Scripts"
-	echo
-	sleep 3s
-	cd /victory-edition/ArcoInstall/
-	echo
-	sh ArcoInstall/100-display-manager-and-desktop.sh
-	sh ArcoInstall/110-development-software.sh
-	sh ArcoInstall/120-install-sound.sh
-	sh ArcoInstall/130-bluetooth.sh
-	sh ArcoInstall/140-printers.sh
-	sh ArcoInstall/150-samba.sh
-	sh ArcoInstall/170-network-discovery.sh
-	sh ArcoInstall/200-software-arch-linux.sh
-	sh ArcoInstall/300-software-arcolinux-3thparty.sh
-	sh ArcoInstall/400-software-arcolinux-xlarge.sh
-	sh ArcoInstall/500-software-distro-specific.sh
-	sh ArcoInstall/600-additional-arcolinux-software.sh
-	sh ArcoInstall/700-installing-fonts.sh
-	sh ArcoInstall/800-conky.sh
-	echo
-#	sh ArcoInstall/000-use-all-cores-makepkg-conf-v*.sh
-#	sh ArcoInstall/110-install-sound-v*.sh
-#	sh ArcoInstall/120-bluetooth-v*.sh
-#	sh ArcoInstall/121-fix-bluetooth-switch-not-working-v*.sh
-#	sh ArcoInstall/130-install-printers-v*.sh
-#	sh ArcoInstall/140-install-samba-v*.sh
-#	sh ArcoInstall/150-install-network-discovery-v*.sh
-#	sh ArcoInstall/200-software-arch-linux-repo-v*.sh
-#	sh ArcoInstall/300-software-AUR-repo-v*.sh
-#	sh ArcoInstall/400-software-arch-linux-repo-distro-specific-v*.sh
-#	sh ArcoInstall/500-software-AUR-repo-distro-specific-v*.sh
-#	sh ArcoInstall/600-software-from-ArcoLinux-repo-v*.sh
-#	sh ArcoInstall/700-installing-fonts-v*.sh
-#	sh ArcoInstall/900-fix-microcode-error-v*.sh
+	#Add parallel downloading
+sed -i 's/^#Para/Para/' /etc/pacman.conf
+
+#Enable multilib
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+pacman -Sy --noconfirm
+
+echo -e "\nInstalling Base System\n"
+
+PKGS=(
+'mesa' # Essential Xorg First
+'xorg'
+'xorg-server'
+'xorg-apps'
+'xorg-drivers'
+'xorg-xkill'
+'xorg-xinit'
+'ark' # compression
+'autoconf' # build
+'automake' # build
+'base'
+'bash-completion'
+'bind'
+'binutils'
+'bison'
+'bluez'
+'bluez-libs'
+'bluez-utils'
+'btrfs-progs'
+'celluloid' # video players
+'cmatrix'
+'cronie'
+'cups'
+'dconf-editor'
+'dialog'
+'dosfstools'
+'dtc'
+'efibootmgr' # EFI boot
+'egl-wayland'
+'exfat-utils'
+'extra-cmake-modules'
+'filelight'
+'firefox'
+'flatpak'
+'flex'
+'fuse2'
+'fuse3'
+'fuseiso'
+'gamemode'
+'gcc'
+'gimp' # Photo editing
+'git'
+'gnome'
+'gnome-tweaks'
+'gparted' # partition management
+'gptfdisk'
+'grub'
+'grub-customizer'
+'gst-libav'
+'gst-plugins-good'
+'gst-plugins-ugly'
+'gwenview'
+'haveged'
+'htop'
+'iptables-nft'
+'jdk-openjdk' # Java 17
+'kcodecs'
+'kmail'
+'kmag'
+'layer-shell-qt'
+'libdvdcss'
+'libnewt'
+'libtool'
+'linux'
+'linux-firmware'
+'linux-headers'
+'lsof'
+'lzop'
+'m4'
+'make'
+'milou'
+'mtools'
+'nano'
+'neofetch'
+'networkmanager'
+'ntfs-3g'
+'ntp'
+'openbsd-netcat'
+'openssh'
+'os-prober'
+'p7zip'
+'pacman-contrib'
+'patch'
+'picom'
+'pipewire'
+#'pipewire-media-session'
+'pkgconf'
+'powerline-fonts'
+'print-manager'
+'python-notify2'
+'python-psutil'
+'python-pyqt5'
+'python-pip'
+'rsync'
+'snapper'
+'starship'
+'sudo'
+'swtpm'
+'terminator'
+'terminus-font'
+'thunar'
+'traceroute'
+'ufw'
+'unrar'
+'unzip'
+'usbutils'
+'variety'
+'virtualbox'
+'virtualbox-host-modules-arch'
+'virtualbox-guest-utils'
+'wireplumber'
+'wget'
+'which'
+'xdg-user-dirs'
+'youtube-dl'
+'zeroconf-ioslave'
+'zip'
+)
+
+for PKG in "${PKGS[@]}"; do
+    echo "INSTALLING: ${PKG}"
+    sudo pacman -S "$PKG" --noconfirm --needed
+done
 
 	check_exit_status
 }
@@ -595,8 +694,8 @@ greeting
 mirror
 general_update
 debloat
-arco
-install
+packages
+aur_packages
 #laptop
 #laptop2
 #flatpak
