@@ -59,7 +59,7 @@ function greeting() {
 
 	echo
 	echo "+-------------------------------------------------------------------------+"
-	echo "|-------  Hello, $USER. Let's setup your VictoryArchLite-Edition.  -------|"
+	echo "|-------  Hello, $USER. Let's setup your VictoryArchLiteLite-Edition.  -------|"
 	echo "+-------------------------------------------------------------------------+"
 	echo
 	echo "DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK."
@@ -86,7 +86,7 @@ function greeting() {
 
 	   echo "You replied $input, you are ready to start"
 	   echo
-	   echo "Starting Victorylinux VictoryArchLite-Edition install."
+	   echo "Starting Victorylinux VictoryArchLiteLite-Edition install."
 	   echo
 	   sleep 3s
 
@@ -135,8 +135,7 @@ function debloat() {
 # cpu
 function cpu() {
 
-	# determine processor type and install microcode
-# 
+# determine processor type and install microcode
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
 	GenuineIntel)
@@ -171,8 +170,8 @@ if [ $(whoami) = "root"  ];
 then
     useradd -m -G wheel,libvirt -s /bin/bash $username 
 	passwd $username
-	cp -R /root/VictoryArch /home/$username/
-    chown -R $username: /home/$username/VictoryArch
+	cp -R /root/VictoryArchLite /home/$username/
+    chown -R $username: /home/$username/VictoryArchLite
 	read -p "Please name your machine:" nameofmachine
 	echo $nameofmachine > /etc/hostname
 else
@@ -388,7 +387,7 @@ check_exit_status
 
 #GRUB
 function grub() {
-cd $HOME/VictoryArchLite/grub/
+cd $HOME/VictoryArchLiteLite/grub/
 sudo ./install.sh
 
 check_exit_status
@@ -405,9 +404,9 @@ check_exit_status
 #CONFIGS
 function configs() {
 export PATH=$PATH:~/.local/bin
-cp -r $HOME/VictoryArch/configs/* $HOME/.config/
+cp -r $HOME/VictoryArchLite/configs/* $HOME/.config/
 echo
-sudo mv -f $HOME/VictoryArch/configs/pacman.conf /etc/
+sudo mv -f $HOME/VictoryArchLite/configs/pacman.conf /etc/
 echo
 mv $HOME/.config/bashrc $HOME/.config/.bashrc
 mv $HOME/.config/.bashrc $HOME
