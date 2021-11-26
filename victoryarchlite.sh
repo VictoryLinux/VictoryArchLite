@@ -387,7 +387,7 @@ check_exit_status
 
 #GRUB
 function grub() {
-cd $HOME/VictoryArchLiteLite/grub/
+cd $HOME/VictoryArchLite/grub/
 sudo ./install.sh
 
 check_exit_status
@@ -472,7 +472,7 @@ function leave() {
 greeting
 #mirror
 general_update
-debloat
+#debloat
 cpu
 gpu
 packages
