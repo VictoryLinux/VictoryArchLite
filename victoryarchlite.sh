@@ -268,6 +268,7 @@ PKGS=(
 'networkmanager'
 'ntfs-3g'
 'ntp'
+'onboard'
 'openbsd-netcat'
 'openssh'
 'os-prober'
