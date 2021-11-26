@@ -146,6 +146,59 @@ function debloat() {
 	check_exit_status
 }
 
+# cpu
+function cpu() {
+
+	# determine processor type and install microcode
+# 
+proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
+case "$proc_type" in
+	GenuineIntel)
+		print "Installing Intel microcode"
+		pacman -S --noconfirm intel-ucode
+		proc_ucode=intel-ucode.img
+		;;
+	AuthenticAMD)
+		print "Installing AMD microcode"
+		pacman -S --noconfirm amd-ucode
+		proc_ucode=amd-ucode.img
+		;;
+esac	
+	check_exit_status
+}
+
+# gpu
+function gpu() {
+
+	# Graphics Drivers find and install
+if lspci | grep -E "NVIDIA|GeForce"; then
+    pacman -S nvidia --noconfirm --needed
+	nvidia-xconfig
+elif lspci | grep -E "Radeon"; then
+    pacman -S xf86-video-amdgpu --noconfirm --needed
+elif lspci | grep -E "Integrated Graphics Controller"; then
+    pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
+fi
+
+echo -e "\nDone!\n"
+if ! source install.conf; then
+	read -p "Please enter username:" username
+echo "username=$username" >> ${HOME}/VictoryArch/install.conf
+fi
+if [ $(whoami) = "root"  ];
+then
+    useradd -m -G wheel,libvirt -s /bin/bash $username 
+	passwd $username
+	cp -R /root/VictoryArch /home/$username/
+    chown -R $username: /home/$username/VictoryArch
+	read -p "Please name your machine:" nameofmachine
+	echo $nameofmachine > /etc/hostname
+else
+	echo "You are already a user proceed with aur installs"
+fi
+	check_exit_status
+}
+
 # Running Arch Linux Setup Scripts
 function packages() {
 	echo
@@ -286,390 +339,63 @@ done
 	check_exit_status
 }
 
-function install() {
+function aur() {
 	echo
-	echo "Installing Essentials"
+	echo "Installing AUR Packages"
 	echo
-	sleep 3s
-	sudo pacman -S terminator dconf-editor yay gnome-nettool gnome-tweaks gnome-usage flatpak curl git meson onboard brave-bin unrar
-	echo
-	yay -S flat-remix onlyoffice-bin popsicle-git arcolinux-teamviewer realvnc-vnc-server realvnc-vnc-viewer
-	echo
-	flatpak install flathub org.glimpse_editor.Glimpse && flatpak install flathub com.discordapp.Discord
+	PKGS=(
+'chrome-gnome-shell'
+'awesome-terminal-fonts'
+'brave-bin' # Brave Browser
+'dxvk-bin' # DXVK DirectX to Vulcan
+#'flat-remix'
+#'flat-remix-gtk'
+'github-desktop-bin' # Github Desktop sync
+'gnome-shell-extension-blur-my-shell-git'
+'gnome-shell-extension-impatience-git'
+'gnome-shell-extension-task-icons-git'
+'gnome-shell-extension-no-annoyance-git'
+'gnome-shell-extension-dash-to-dock-git'
+'gnome-shell-extension-tiling-assistant'
+'gnome-shell-extension-extensions'
+'gnome-shell-extension-caffeine-git'
+'gnome-shell-extension-pop-shell-git'
+'gnome-shell-extension-sound-output-device-chooser'
+'gnome-shell-extension-vitals-git'
+'inxi'
+'loginized'
+'multimc5'
+'nerd-fonts-fira-code'
+'pamac-all'
+'papirus-icon-theme'
+'popsicle-git'
+'ocs-url' # install packages from websites
+'onlyoffice-bin'
+'stacer-bin'
+'ttf-droid'
+'ttf-hack'
+'ttf-meslo' # Nerdfont package
+'ttf-roboto'
+'zoom' # video conferences
+'snap-pac'
+)
+
+for PKG in "${PKGS[@]}"; do
+    yay -S --noconfirm $PKG
+done
+
+    check_exit_status
 }
 
-# Settings for laptops
-function laptop() {
-	read -p "IS THIS BEING INSTALLED ON A LAPTOP? [y,n]" answer 
+# Install Flatpaks
+function flatpaks() {
+	flatpak install flathub com.simplenote.Simplenote -y
+    flatpak install flathub com.visualstudio.code -y
+    flatpak install flathub com.discordapp.Discord -y
+    flatpak install flathub com.bitwarden.desktop -y
 
-            if [ "$answer" == "y" ]
-            then
-            	echo "You replied $input, this is a laptop."
-		echo
-		echo "Running setup for laptops."
-		echo
-		cd /victory-edition/ArcoInstall/
-		echo
-		sh ArcoInstall/160-install-tlp-for-laptops-v*.sh
-
-            if [ "$answer" == "n" ]
-            then
-		echo "You replied $input, this is not a laptop"
-		echo
-		echo "Moving on"
-		sleep 15s
-                
-            fi
-        fi
-
+    check_exit_status
 }
-	
-
-# Running Arco Linux Setup Scripts
-function laptop2() {
-	echo
-	echo "Running Arco Linux Setup Scripts"
-	echo
-	sleep 3s
-	cd /victory-edition/ArcoInstall/
-	echo
-	sh ArcoInstall/160-laptop.sh
-	echo
-	check_exit_status
-}
-
-
-# copy update script to final location
-function flatpak() {
-
-#	echo "Moving Update Script to final location."
-	echo
-#	sleep 3s
-	flatpak install flathub org.glimpse_editor.Glimpse;
-	echo
-	check_exit_status
-}
-
-# copy update script to final location
-function update_script() {
-
-	echo "Moving Update Script to final location."
-	echo
-	sleep 3s
-	sudo mv victory/arcoupdate ~/.bin/;
-	cd ~/.bin 
-	chmod u+x arcoupdate
-	check_exit_status
-}
-
-# Put the fancy bash promt back after updating
-function fix_bashrc() {
-
-	echo "Making Terminal fancy."
-	echo
-	sleep 3s
-	sudo cp -r victory/fancy-user-bash.sh ~/;
-	sudo cp -r victory/fancy-root-bash.sh ~/;
-	cd ~
-	sudo mv fancy-user-bash.sh .fancy-user-bash.sh
-	sudo mv fancy-root-bash.sh .fancy-root-bash.sh
-	echo "
-	source ~/.fancy-user-bash.sh" | sudo tee --append ~/.bashrc
-		echo
-	#	gsettings set org.gnome.desktop.default-applications.terminal exec 'terminator'
-	#	echo
-	#	sudo ln -s /usr/bin/gnome-terminal
-		check_exit_status
-	}
-	
-# Put the .face img in home folder
-function face() {
-
-	echo "Fixing my face."
-	echo
-	sleep 3s
-	sudo cp -r victory/face ~/;
-	echo
-	cd ~
-	sudo mv face .face
-	echo
-	check_exit_status
-}
-
-# Installing my Icon Themes
-function icons() {
-
-	echo "Giving Gnome a facelift."
-	echo
-	sleep 3s
-#	git clone https://github.com/pop-os/icon-theme pop-icon-theme
-#	cd pop-icon-theme
-#	meson build
-#	sudo ninja -C "build" install
-#	sudo mv pop-icon-theme/ ~/;
-	#gsettings set org.gnome.desktop.interface icon-theme 'Pop'
-	echo
-	git clone https://github.com/daniruiz/flat-remix
-	git clone https://github.com/daniruiz/flat-remix-gtk
-	mkdir -p ~/.icons && mkdir -p ~/.themes
-	cp -r flat-remix/Flat-Remix* ~/.icons/ && cp -r flat-remix-gtk/Flat-Remix-GTK* ~/.themes/
-	rm -rf ~/flat-remix flat-remix-gtk
-	gsettings set org.gnome.desktop.interface gtk-theme "Flat-Remix-GTK-Blue-Dark"
-	gsettings set org.gnome.desktop.interface icon-theme "Flat-Remix-Blue-Dark"
-	
-	check_exit_status
-}
-
-# Setting up Favorite Dock icons
-function dock() {
-
-	echo "Setting up the Dock."
-	echo
-	sleep 3s
-#	cp /usr/share/applications/plank.desktop ~/.config/autostart/
-#	sudo chmod +x ~/.config/autostart/plank.desktop
-	echo
-	gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'chromium.desktop', 'org.gnome.Nautilus.desktop', 'simplenote.desktop', 'terminator.desktop', 'realvnc-vncviewer.desktop', 'com.teamviewer.TeamViewer.desktop', 'virtualbox.desktop', 'onboard.desktop']"
-	
-	check_exit_status
-}
-
-# Put the wallpaper
-function backgrounds() {
-
-	echo "Setting up Favorite Wallpaper."
-	echo
-	sleep 3s
-#	sudo mv ~/victory-edition/victory/backgrounds/my_arcolinux /usr/share/backgrounds/
-#	sudo mv ~/victory-edition/victory/backgrounds/my_gnome /usr/share/backgrounds/
-#	sudo mv ~/victory-edition/victory/backgrounds/my_wall /usr/share/backgrounds/
-	sudo cp -r ~/victory-edition/victory/backgrounds/victory /usr/share/backgrounds/
-	echo
-#	sudo rm -rf /usr/share/backgrounds/arcolinux
-#	sudo rm -rf /usr/share/backgrounds/gnome
-	check_exit_status
-}
-
-# searching for the fastest mirrors
-function nvidia() {
-	echo "DO YOU NEED NVIDIA DRIVERS? [y,n]"
-	read input
-
-	# did we get an input value?
-	if [ "$input" == "" ]; then
-
-	   echo "Nothing was entered by the user"
-
-	# was it a y or a yes?
-	elif [[ "$input" == "y" ]] || [[ "$input" == "yes" ]]; then
-
-	   echo "You replied $input, you do need Nvidia video driver"
-	   echo
-	   echo "Installing Nvidia video driver"
-	   echo
-	   sleep 3s
-           echo
-           sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader
-
-	# treat anything else as a negative response
-	else
-
-	   echo "You replied $input, you don't need nvidia driver"
-	   echo
-	   echo "Moving on"
-
-fi
-
-	echo
-	
-	check_exit_status
-}
-
-# Running Arco Linux Setup Scripts
-function nvidia2() {
-	echo
-	echo "Installing Nvidia video driver"
-	echo
-	sleep 3s
-	echo
-	sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader
-	echo
-	check_exit_status
-}
-
-# searching for the fastest mirrors
-function intel() {
-	echo "DO YOU NEED INTEL VIDEO DRIVERS? [y,n]"
-	read input
-
-	# did we get an input value?
-	if [ "$input" == "" ]; then
-
-	   echo "Nothing was entered by the user"
-
-	# was it a y or a yes?
-	elif [[ "$input" == "y" ]] || [[ "$input" == "yes" ]]; then
-
-	   echo "You replied $input, you do need Intel video driver"
-	   echo
-	   echo "Installing Intel video driver"
-	   echo
-	   sleep 3s
-           echo
-           sudo pacman -S lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
-
-	# treat anything else as a negative response
-	else
-
-	   echo "You replied $input, you don't need Intel video driver"
-	   echo
-	   echo "Moving on"
-
-fi
-
-	echo
-	
-	check_exit_status
-}
-
-# Running Arco Linux Setup Scripts
-function intel2() {
-	echo
-	echo "Installing Intel video driver"
-	echo
-	sleep 3s
-	echo
-	sudo pacman -S lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
-	echo
-	check_exit_status
-}
-
-# searching for the fastest mirrors
-function gdm() {
-	read -p "DO YOU WANT TO ENABLE GDM DISPLAY MANAGER? [y,n]" answer 
-
-            if [ "$answer" == "y" ]
-            then
-            	echo "You replied $input, you do want to enable GDM Display Manager."
-		echo
-		echo "Enabling GDM Display Manager."
-		echo
-		sleep 3s
-		echo
-		sudo systemctl enable gdm.service -f
-		echo
-
-            if [ "$answer" == "n" ]
-            then
-		echo "You replied $input, you don't want to enable GDM Display Manager"
-		echo
-		echo "Moving on"
-		sleep 15s
-                
-            fi
-        fi
-
-}
-
-# Running Arco Linux Setup Scripts
-function gdm2() {
-	echo
-	echo "Enabling GDM Display Manager"
-	echo
-	sleep 3s
-	echo
-	sudo systemctl enable gdm.service -f
-	echo
-	check_exit_status
-}
-
-# searching for the fastest mirrors
-function lightdm() {
-	echo "DO YOU WANT TO ENABLE LIGHTDM DISPLAY MANAGER? [y,n]"
-	read input
-
-	# did we get an input value?
-	if [ "$input" == "" ]; then
-
-	   echo "Nothing was entered by the user"
-
-	# was it a y or a yes?
-	elif [[ "$input" == "y" ]] || [[ "$input" == "yes" ]]; then
-
-	   echo "You replied $input, you do want to enable LightDM Display Manager"
-	   echo
-	   echo "Enabling LightDM Display Manager"
-	   echo
-	   sleep 3s
-           echo
-           sudo systemctl enable Lightdm.service -f
-
-	# treat anything else as a negative response
-	else
-
-	   echo "You replied $input, you don't want to enable LightDM Display Manager"
-	   echo
-	   echo "Moving on"
-
-fi
-
-	echo
-	
-	check_exit_status
-}
-
-# Running Arco Linux Setup Scripts
-function lightdm2() {
-	echo
-	echo "Enabling LightDM Display Manager"
-	echo
-	sleep 3s
-	echo
-	sudo systemctl enable lightdm.service -f
-	echo
-	check_exit_status
-}
-
-# Installing Guest Additions,if needed
-function virtualbox() {
-	
-	read -p "IS THIS A VBOX VM, INSTALL GUEST ADDITIONS? [y,n]" answer 
-
-            if [ "$answer" == "y" ]
-            then
-            	echo "You replied $input, this is a Vbox VM"
-		echo
-		echo "Installing Guest Additions"
-		echo
-		sleep 3s
-		echo
-		sudo pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils --noconfirm
-
-            if [ "$answer" == "n" ]
-            then
-		echo "You replied $input, this is not a VM"
-		echo
-		echo "Moving on"
-		sleep 15s
-                
-            fi
-        fi
-
-}
-	
-
-# Running Arco Linux Setup Scripts
-function virtualbox2() {
-	echo
-	echo "Installing Guest Additions"
-	echo
-	sleep 3s
-	echo
-	sudo pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils --noconfirm
-	echo
-	check_exit_status
-}
-
 
 function leave() {
 
@@ -687,32 +413,15 @@ function leave() {
 	reboot
 }
 
-
 # Place a # in front of any part of this script yould like to skip:
 
 greeting
 mirror
 general_update
 debloat
+cpu
+gpu
 packages
-aur_packages
-#laptop
-#laptop2
-#flatpak
-update_script
-fix_bashrc
-face
-icons
-dock
-backgrounds
-#nvidia
-#nvidia2
-#intel
-#intel2
-#gdm
-gdm2
-#lightdm
-#lightdm2
-#virtualbox
-#virtualbox2
+aur
+flatpaks
 leave
