@@ -4,7 +4,7 @@
 
 <img src="VictoryArch.png" />
 
-This README contains the steps I do to install and configure a fully-functional Arch Linux installation containing Gnome desktop environment, all the support packages (network, bluetooth, audio, printers, etc.), along with all my preferred applications and utilities. The shell scripts in this repo allow the entire process to be automated.)
+This README contains the steps I do to configure a fully-functional Arch Linux installation containing Gnome desktop environment, all the support packages (network, bluetooth, audio, printers, etc.), along with all my preferred applications and utilities. The shell scripts in this repo allow the entire process to be automated.)
 
 ---
 ## Create Arch ISO or Use Image
