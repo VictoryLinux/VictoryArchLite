@@ -393,8 +393,83 @@ function flatpaks() {
     flatpak install flathub com.visualstudio.code -y
     flatpak install flathub com.discordapp.Discord -y
     flatpak install flathub com.bitwarden.desktop -y
+    flatpak install flathub nl.hjdskes.gcolor3 -y
 
     check_exit_status
+}
+
+#WALLPAPER
+function wallpaper() {
+cd ~/
+git clone https://gitlab.com/dwt1/wallpapers.git
+
+check_exit_status
+}
+
+#GRUB
+function grub() {
+cd $HOME/VictoryArch/grub/
+sudo ./install.sh
+
+check_exit_status
+}
+
+#TERMINAL
+function terminal() {
+cd ~
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
+
+check_exit_status
+}
+
+#CONFIGS
+function configs() {
+export PATH=$PATH:~/.local/bin
+cp -r $HOME/VictoryArch/configs/* $HOME/.config/
+echo
+sudo mv -f $HOME/VictoryArch/configs/pacman.conf /etc/
+echo
+mv $HOME/.config/bashrc $HOME/.config/.bashrc
+mv $HOME/.config/.bashrc $HOME
+echo
+mv $HOME/.config/face $HOME/.config/.face
+mv $HOME/.config/.face $HOME
+
+check_exit_status
+}
+
+#APPEARANCE
+function appearance() {
+git clone https://github.com/daniruiz/flat-remix
+git clone https://github.com/daniruiz/flat-remix-gtk
+#mkdir -p ~/.icons && mkdir -p ~/.themes
+#cp -r flat-remix/Flat-Remix* ~/.icons/ && cp -r flat-remix-gtk/themes/Flat-Remix* ~/.themes/
+sudo mv flat-remix/Flat-Remix* /usr/share/icons/ 
+sudo mv flat-remix-gtk/themes/Flat-Remix* /usr/share/themes/
+rm -rf ~/flat-remix flat-remix-gtk
+gsettings set org.gnome.desktop.interface gtk-theme "Flat-Remix-GTK-Blue-Dark"
+gsettings set org.gnome.desktop.interface icon-theme "Flat-Remix-Blue-Dark"
+echo
+gsettings set org.gnome.shell favorite-apps "['brave-browser.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'terminator.desktop', 'com.simplenote.Simplenote.desktop', 'virtualbox.desktop', 'com.visualstudio.code.desktop', 'onboard.desktop']"
+gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+gsettings set org.gnome.desktop.interface clock-format '12h'   
+
+check_exit_status
+}
+
+#EXTENSIONS
+function extensions() {
+gnome-extensions enable caffeine@patapon.info
+gnome-extensions enable dash-to-dock@micxgx.gmail.com
+gnome-extensions enable impatience@gfxmonk.net
+gnome-extensions enable noannoyance@daase.net
+gnome-extensions enable pop-shell@system76.com
+gnome-extensions enable tiling-assistant@leleat-on-github
+gnome-extensions enable Vitals@CoreCoding.com
+gnome-extensions enable window-list@gnome-shell-extensions.gcampax.github.com
+gnome-extensions enable sound-output-device-chooser@kgshank.net
+
+check_exit_status
 }
 
 function leave() {
@@ -424,4 +499,10 @@ gpu
 packages
 aur
 flatpaks
+wallpaper
+grub
+terminal
+configs
+appearance
+extensions
 leave
