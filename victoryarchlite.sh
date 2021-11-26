@@ -369,11 +369,11 @@ done
 
 # Install Flatpaks
 function flatpaks() {
-	flatpak install flathub com.simplenote.Simplenote -y
-    flatpak install flathub com.visualstudio.code -y
-    flatpak install flathub com.discordapp.Discord -y
-    flatpak install flathub com.bitwarden.desktop -y
-    flatpak install flathub nl.hjdskes.gcolor3 -y
+	sudo flatpak install flathub com.simplenote.Simplenote -y
+    sudo flatpak install flathub com.visualstudio.code -y
+    sudo flatpak install flathub com.discordapp.Discord -y
+    sudo flatpak install flathub com.bitwarden.desktop -y
+    sudo flatpak install flathub nl.hjdskes.gcolor3 -y
 
     check_exit_status
 }
