@@ -13,18 +13,20 @@ Download ArchISO from <https://archlinux.org/download/> and put on a USB drive w
 
 ## Boot Arch ISO
 
-From initial Prompt type the following commands:
+Install Arch Linux using Archfi script or an installer of you choice
+https://github.com/MatMoul/archfi
+
+choose Gnome DE and a basic setup.
+
+after install, boot into Gnome DE. Open a terminal and run the following command:
 
 ```
 pacman -Sy git
-git clone https://github.com/VictoryLinux/VictoryArch
+git clone https://github.com/VictoryLinux/VictoryArchLite
 cd VictoryArch
-./victoryarch.sh
+./victoryarchlite.sh
 
 restart
-
-cd VictoryArch
-./4-finish.sh
 ```
 
 ### System Description
