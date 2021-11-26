@@ -59,7 +59,7 @@ function greeting() {
 
 	echo
 	echo "+-------------------------------------------------------------------------+"
-	echo "|------- Hello, $USER. Let's setup your ArcoLinux Victory-Edition. -------|"
+	echo "|-------  Hello, $USER. Let's setup your VictoryArchLite-Edition.  -------|"
 	echo "+-------------------------------------------------------------------------+"
 	echo
 	echo "DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK."
@@ -70,20 +70,6 @@ function greeting() {
 	echo "This is NOT a silent install" 
 	echo
 	echo "you will be asked several questions as it progresses"
-	echo
-	echo
-	echo
-	echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-	echo "+++++  Things you need to know before you start  +++++"
-	echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-	echo "++                                                  ++"
-	echo "++ 1.) Your username & a password for SAMBA install ++"
-	echo "++ 2.) What GPU driver you need, Nvidia or Intel    ++"
-	echo "++ 3.) Is this a Virtualbox VM                      ++"
-	echo "++ 4.) Do you want to use GDM or LightDM            ++"
-	echo "++                                                  ++"
-	echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-	echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 	echo
 	echo
 #	sleep 5s
@@ -100,7 +86,7 @@ function greeting() {
 
 	   echo "You replied $input, you are ready to start"
 	   echo
-	   echo "Starting Arcolinux Victory-Edition install script pt. 2."
+	   echo "Starting Victorylinux VictoryArchLite-Edition install."
 	   echo
 	   sleep 3s
 
@@ -181,10 +167,6 @@ elif lspci | grep -E "Integrated Graphics Controller"; then
 fi
 
 echo -e "\nDone!\n"
-if ! source install.conf; then
-	read -p "Please enter username:" username
-echo "username=$username" >> ${HOME}/VictoryArch/install.conf
-fi
 if [ $(whoami) = "root"  ];
 then
     useradd -m -G wheel,libvirt -s /bin/bash $username 
@@ -491,7 +473,7 @@ function leave() {
 # Place a # in front of any part of this script yould like to skip:
 
 greeting
-mirror
+#mirror
 general_update
 debloat
 cpu
