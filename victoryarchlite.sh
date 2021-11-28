@@ -401,14 +401,6 @@ sudo ./install.sh
 check_exit_status
 }
 
-#TERMINAL
-function terminal() {
-cd ~
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
-
-check_exit_status
-}
-
 #CONFIGS
 function configs() {
 export PATH=$PATH:~/.local/bin
@@ -488,7 +480,6 @@ aur
 flatpaks
 wallpaper
 grub
-terminal
 configs
 appearance
 extensions
