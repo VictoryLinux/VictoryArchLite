@@ -180,6 +180,18 @@ fi
 	check_exit_status
 }
 
+# YAY
+function yay() {
+
+	echo "CLONING: YAY"
+	cd ~
+	git clone "https://aur.archlinux.org/yay.git"
+	cd ${HOME}/yay
+	makepkg -si --noconfirm
+
+	check_exit_status
+}
+
 # Running Arch Linux Setup Scripts
 function packages() {
 	echo
@@ -478,6 +490,7 @@ general_update
 #debloat
 cpu
 gpu
+yay
 packages
 aur
 flatpaks
