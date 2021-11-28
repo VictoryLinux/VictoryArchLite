@@ -332,9 +332,14 @@ done
 }
 
 function aur() {
-	echo
-	echo "Installing AUR Packages"
-	echo
+echo "CLONING: YAY"
+cd ~
+git clone "https://aur.archlinux.org/yay.git"
+cd ${HOME}/yay
+makepkg -si --noconfirm
+cd ~
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
+
 	PKGS=(
 'chrome-gnome-shell'
 'awesome-terminal-fonts'
