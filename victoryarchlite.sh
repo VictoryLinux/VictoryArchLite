@@ -204,6 +204,7 @@ PKGS=(
 'xorg-drivers'
 'xorg-xkill'
 'xorg-xinit'
+'alacarte'
 'ark' # compression
 'autoconf' # build
 'automake' # build
