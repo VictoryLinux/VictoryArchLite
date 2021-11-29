@@ -57,20 +57,24 @@ check_exit_status() {
 function greeting() {
 	clear
 
-	echo
-	echo "+-------------------------------------------------------------------------+"
-	echo "|-------  Hello, $USER. Let's setup your VictoryArchLiteLite-Edition.  -------|"
-	echo "+-------------------------------------------------------------------------+"
-	echo
-	echo "DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK."
-	echo
-	echo
-	echo
-	echo
-	echo "This is NOT a silent install" 
-	echo
-	echo "you will be asked several questions as it progresses"
-	echo
+	echo -e "----------------------------------------------------------------"
+echo -e "  ____    ____  __                                              "
+echo -e "  \   \  /   / |__| ____ ________    ____    _______ ___  ___   "
+echo -e "   \   \/   /  ___ |   _|\__   __\ /   _  \ |  __   |\  \/  /   "
+echo -e "    \      /  |   ||  |_   |  |   |   |_|  ||  | |__| \   /     "
+echo -e "     \____/   |___||____|  |__|    \_____ / |__|       |_|      "
+echo -e "                                                                "
+echo -e "----------------------------------------------------------------"
+echo -e "               █████╗ ██████╗  ██████╗██╗  ██╗                  "
+echo -e "              ██╔══██╗██╔══██╗██╔════╝██║  ██║                  "
+echo -e "              ███████║██████╔╝██║     ███████║                  "
+echo -e "              ██╔══██║██╔══██╗██║     ██╔══██║                  "
+echo -e "              ██║  ██║██║  ██║╚██████╗██║  ██║                  "
+echo -e "              ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝                  "
+echo -e "----------------------------------------------------------------"
+echo -e "-Setting up $iso mirrors for faster downloads"
+echo -e "----------------------------------------------------------------"
+
 	echo
 #	sleep 5s
 	echo "ARE YOU READY TO START? [y,n]"
@@ -347,6 +351,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerleve
 'gnome-shell-extension-pop-shell-git'
 'gnome-shell-extension-sound-output-device-chooser'
 'gnome-shell-extension-vitals-git'
+'gnome-shell-extension-gnome-ui-tune'
 'inxi'
 'loginized'
 'multimc5'
@@ -449,6 +454,8 @@ gnome-extensions enable tiling-assistant@leleat-on-github
 gnome-extensions enable Vitals@CoreCoding.com
 gnome-extensions enable window-list@gnome-shell-extensions.gcampax.github.com
 gnome-extensions enable sound-output-device-chooser@kgshank.net
+gnome-extensions enable gnome-ui-tune@itstime.tech
+gnome-extensions enable pamac-updates@manjaro.org
 
 check_exit_status
 }
