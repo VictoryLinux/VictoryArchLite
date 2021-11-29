@@ -438,7 +438,7 @@ echo
 gsettings set org.gnome.shell favorite-apps "['brave-browser.desktop', 'firefox.desktop', 'org.gnome.Nautilus.desktop', 'terminator.desktop', 'com.simplenote.Simplenote.desktop', 'virtualbox.desktop', 'com.visualstudio.code.desktop', 'onboard.desktop']"
 gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
 gsettings set org.gnome.desktop.interface clock-format '12h'   
-gsettings set org.gnome.desktop.interface cursor-theme 'breeze'
+gsettings set org.gnome.desktop.interface cursor-theme 'Breeze'
 
 check_exit_status
 }
