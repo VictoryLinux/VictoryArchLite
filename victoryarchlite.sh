@@ -333,6 +333,7 @@ cd ~
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
 
 	PKGS=(
+'appimagelauncher'
 'chrome-gnome-shell'
 'awesome-terminal-fonts'
 'brave-bin' # Brave Browser
