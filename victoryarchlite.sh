@@ -343,7 +343,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerleve
 'github-desktop-bin' # Github Desktop sync
 'gnome-shell-extension-blur-my-shell-git'
 'gnome-shell-extension-impatience-git'
-'gnome-shell-extension-task-icons-git'
+#'gnome-shell-extension-task-icons-git'
 'gnome-shell-extension-no-annoyance-git'
 'gnome-shell-extension-dash-to-dock-git'
 'gnome-shell-extension-tiling-assistant'
@@ -353,6 +353,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerleve
 'gnome-shell-extension-sound-output-device-chooser'
 'gnome-shell-extension-vitals-git'
 'gnome-shell-extension-gnome-ui-tune'
+'gnome-shell-extension-appindicator-git'
 'inxi'
 'loginized'
 'multimc5'
