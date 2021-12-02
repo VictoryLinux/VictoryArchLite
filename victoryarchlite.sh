@@ -248,7 +248,6 @@ PKGS=(
 'gst-libav'
 'gst-plugins-good'
 'gst-plugins-ugly'
-'gwenview'
 'haveged'
 'hplip'
 'htop'
