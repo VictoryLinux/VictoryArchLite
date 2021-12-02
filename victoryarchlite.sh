@@ -219,7 +219,7 @@ PKGS=(
 'celluloid' # video players
 'cmatrix'
 'cronie'
-'cups'
+'cups'  # cups GUI localhost:631/admin
 'dconf-editor'
 'dialog'
 'dosfstools'
@@ -237,17 +237,20 @@ PKGS=(
 'fuseiso'
 'gamemode'
 'gcc'
+'ghostscript'
 'gimp' # Photo editing
 'git'
 'gnome-tweaks'
 'gparted' # partition management
 'gptfdisk'
 'grub-customizer'
+'gsfonts'
 'gst-libav'
 'gst-plugins-good'
 'gst-plugins-ugly'
 'gwenview'
 'haveged'
+'hplip'
 'htop'
 'iptables-nft'
 'jdk-openjdk' # Java 17
@@ -255,6 +258,7 @@ PKGS=(
 'kmail'
 'kmag'
 'layer-shell-qt'
+'libcups'
 'libdvdcss'
 'libnewt'
 'libtool'
