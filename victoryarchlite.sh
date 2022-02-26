@@ -207,6 +207,7 @@ PKGS=(
 'ark' # compression
 'autoconf' # build
 'automake' # build
+'awesome-terminal-fonts'
 'base'
 'bash-completion'
 'bind'
@@ -339,7 +340,6 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerleve
 	PKGS=(
 'appimagelauncher'
 'chrome-gnome-shell'
-'awesome-terminal-fonts'
 'brave-bin' # Brave Browser
 'dxvk-bin' # DXVK DirectX to Vulcan
 #'flat-remix'
