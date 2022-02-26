@@ -284,7 +284,6 @@ PKGS=(
 'patch'
 'picom'
 'pipewire'
-#'pipewire-media-session'
 'pkgconf'
 'powerline-fonts'
 'print-manager'
@@ -299,7 +298,6 @@ PKGS=(
 'swtpm'
 'terminator'
 'terminus-font'
-'thunar'
 'traceroute'
 'ufw'
 'unrar'
@@ -309,6 +307,9 @@ PKGS=(
 'virtualbox'
 'virtualbox-host-modules-arch'
 'virtualbox-guest-utils'
+'wine-gecko'
+'wine-mono'
+'winetricks'
 'wireplumber'
 'wget'
 'which'
@@ -373,6 +374,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerleve
 'ttf-hack'
 'ttf-meslo' # Nerdfont package
 'ttf-roboto'
+'vscodium-bin'
 'xcursor-breeze'
 'zoom' # video conferences
 'snap-pac'
@@ -387,8 +389,8 @@ done
 
 # Install Flatpaks
 function flatpaks() {
-	sudo flatpak install flathub com.simplenote.Simplenote -y
-    sudo flatpak install flathub com.visualstudio.code -y
+    sudo flatpak install flathub com.simplenote.Simplenote -y
+#    sudo flatpak install flathub com.visualstudio.code -y
     sudo flatpak install flathub com.discordapp.Discord -y
     sudo flatpak install flathub com.bitwarden.desktop -y
     sudo flatpak install flathub nl.hjdskes.gcolor3 -y
@@ -468,9 +470,9 @@ check_exit_status
 function leave() {
 
 	echo
-	echo "---------------------------------------"
-	echo "---- ArcoLinux has been installed! ----"
-	echo "---------------------------------------"
+	echo "-----------------------------------------------"
+	echo "---- VictoryArch Linux has been installed! ----"
+	echo "-----------------------------------------------"
 	echo
 	echo "This PC may need to be restarted"
 	echo
